@@ -1,0 +1,15 @@
+name: teardown
+
+on:
+  workflow_dispatch
+
+jobs:
+  teardown:
+    runs-on: ubuntu-latest
+    steps:
+      - name: login
+        uses: azure/login@v1
+        with:
+          creds: '@{{ secrets.AZURE_CREDENTIALS }}'
+      - name: teardown
+        run: az group delete --name LibraryRG
