@@ -1,0 +1,29 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "rgname": {
+            "type": "string",
+            "defaultValue": "library",
+            "metadata": {
+                "description": "The name of the main library resource group"
+            }
+        },
+        "deploymentLocation": {
+            "type": "string",
+            "defaultValue":"[deployment().location]",
+            "metadata": {
+                "description": "The location of the resource group"
+            }
+        }
+    },
+    "resources": [
+        {
+            "type":"Microsoft.Resources/resourceGroups",
+            "name":"[parameters('rgname')]",
+            "apiVersion":"2020-06-01",
+            "location":"[parameters('deploymentLocation')]",
+            "properties": {}
+        }
+    ]
+}
