@@ -7,9 +7,9 @@ jobs:
   teardown:
     runs-on: ubuntu-latest
     steps:
-      - name: login
-        uses: azure/login@v1
+      - uses: azure/login@v1
+        env:
+           CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
         with:
-          creds: '@{{ secrets.AZURE_CREDENTIALS }}'
-      - name: teardown
-        run: az group delete --name LibraryRG
+          creds: ${{ env.CREDENTIALS }}
+      - run: az group delete --name LibraryRG

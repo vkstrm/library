@@ -7,13 +7,13 @@ jobs:
   deploy-library-rg:
     runs-on: ubuntu-latest
     steps:
-      - name: Login
-        uses: azure/login@v1
+      - uses: azure/login@v1
+        env:
+           CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
         with:
-          creds: '@{{ secrets.AZURE_CREDENTIALS }}'
-      - name: Deploy resource group
-        uses: actions/checkout@v2
-        run: az deployment sub create --name libraryRgDeploy \
+          creds: ${{ env.CREDENTIALS }}
+      - uses: actions/checkout@v2
+      - run: az deployment sub create --name libraryRgDeploy \
               --location northeurope --template-file deployment/rgdeploy.json \
               --parameters deployment/rgdeploy.parameters.json
 
@@ -21,14 +21,13 @@ jobs:
     needs: deploy-library-rg
     runs-on: ubuntu-latest
     steps:
-      - name: Login
-        uses: azure/login@v1
+      - uses: azure/login@v1
+        env:
+           CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
         with:
-          creds: '@{{ secrets.AZURE_CREDENTIALS }}'
-      - name: Deploy Library
-        uses: actions/checkout@v2
-        run: az deployment group create --name github-library \
+          creds: ${{ env.CREDENTIALS }}
+      - uses: actions/checkout@v2
+      - run: az deployment group create --name github-library \
           --resource-group LibraryRG \
           --template-file deployment/deploy.json \
           --parameters deployment/deploy.parameters.json
-      
